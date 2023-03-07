@@ -23,8 +23,7 @@ LINKS = ["mmz4281/2223/E0.csv",
 def grab_epl_data():
     df = pd.DataFrame()
     for link in LINKS:
-        # print(f"https://www.football-data.co.uk/{link}")
-        df = pd.concat([df, pd.read_csv(f"https://www.football-data.co.uk/{link}")])
+        df = pd.concat([df, pd.read_csv(f"https://www.football-data.co.uk/{link}")]).reset_index(drop=True)
     return df
 
 def split_data(df):
