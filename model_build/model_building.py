@@ -25,6 +25,8 @@ def tt_split(df):
     X_test = df.loc[df['Date'] >= '2021/01/01']
     y_train = df['margin'].loc[df['Date'] < '2021/01/01']
     y_test = df['margin'].loc[df['Date'] >= '2021/01/01']
+    X_train.drop(columns=['Date', 'margin'], inplace=True)
+    X_test.drop(columns=['Date', 'margin'], inplace=True)
     return X_train, X_test, y_train, y_test
 
 def initialize_model():
