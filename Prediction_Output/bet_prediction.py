@@ -7,19 +7,18 @@ from odds_featuring.odds_features import get_odds_final
 from stats_pack.stats_features import stats_features
 from model_build.model_building import *
 
+def predict(X_new):
+    df = grab_epl_data()
+    df_final = data_prepare_for_split(df)
 
-df = grab_epl_data()
-df_final = data_prepare_for_split(df)
+    X_train, X_test, y_train, y_test = tt_split(df_final)
 
-X_train, X_test, y_train, y_test = tt_split(df_final)
+    X_train_processed, X_test_processed = preprocess(X_train, X_test)
 
-X_train_processed, X_test_processed = preprocess(X_train, X_test)
+    model = initialize_model()
 
-model = initialize_model()
+    model = train_model(model, X_train_processed, y_train)
 
-model = train_model(model, X_train_processed, y_train)
-
-def predict_bet(X_new):
     y_pred = model.predict(X_new)
     if y_pred > 1:
         print('Bet on a Home Win')
