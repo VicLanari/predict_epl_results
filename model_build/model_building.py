@@ -8,9 +8,11 @@ from stats_pack.stats_features import stats_features
 from cloud_interaction.upload import upload_model
 import os
 import pickle
+from params import *
+import time
 
 BUCKET_NAME = os.environ.get("BUCKET_NAME")
-
+local_path = LOCAL_REGISTRY_PATH
 def data_prepare_for_split(df):
     df_odds = get_odds_final(df)
     df_stats = stats_features(df)
@@ -23,6 +25,20 @@ def preprocess(X_train, X_test):
     scaler = RobustScaler()
     X_train_processed = scaler.fit_transform(X_train)
     X_test_processed = scaler.transform(X_test)
+    from google.cloud import storage
+    timestamp = time.strftime("%Y%m%d-%H%M%S")
+
+    # save model locally
+    model_path = os.path.join(local_path, f"{timestamp}_scaler.pkl")
+    with open(model_path,'wb') as f:
+        pickle.dump(scaler,f)
+
+    model_filename = model_path.split("/")[-1] # e.g. "20230208-161047.h5" for instance
+    client = storage.Client()
+    bucket = client.bucket(BUCKET_NAME)
+    blob = bucket.blob(f"scalers/{model_filename}")
+    blob.upload_from_filename(model_path)
+    print("✅ Scaler saved to gcs")
     return X_train_processed, X_test_processed
 
 def tt_split(df):
