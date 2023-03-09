@@ -6,7 +6,10 @@ from import_pack.import_data import *
 from odds_featuring.odds_features import get_odds_final
 from stats_pack.stats_features import stats_features
 from cloud_interaction.upload import upload_model
+import os
+import pickle
 
+BUCKET_NAME = os.environ.get("BUCKET_NAME")
 
 def data_prepare_for_split(df):
     df_odds = get_odds_final(df)
@@ -64,3 +67,17 @@ def evaluate(model, X_test_processed, y_test):
     y_compare['correct'] = y_compare.apply(lambda x: check_conditions(x['margin'], x['prediction']), axis=1)
     ratio = y_compare['correct'].value_counts(normalize=True)
     return r2, mae, ratio
+
+def dl_model():
+    from google.cloud import storage
+    client = storage.Client()
+    blobs = list(client.get_bucket(BUCKET_NAME).list_blobs(prefix="models"))
+    blob = blobs[-1]
+    pickle_in = blob.download_as_string()
+    model = pickle.loads(pickle_in)
+    print("✅ Model loaded from gcs")
+    return model
+
+
+# if __name__ == '__main__':
+#     dl_model()
