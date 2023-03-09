@@ -129,7 +129,7 @@ def predict():
     home_team, away_team  = get_input()
     X_new = get_x_new(home_team, away_team)
     scaler = dl_scaler()
-    X_new_processed = scaler.fit_transform(X_new)
+    X_new_processed = scaler.transform(X_new)
     y_pred = model.predict(X_new_processed)
     margin = y_pred[0]
     print(margin)
