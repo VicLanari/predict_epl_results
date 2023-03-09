@@ -5,6 +5,8 @@ from sklearn.preprocessing import RobustScaler
 from import_pack.import_data import *
 from odds_featuring.odds_features import get_odds_final
 from stats_pack.stats_features import stats_features
+from cloud_interaction.upload import upload_model
+
 
 def data_prepare_for_split(df):
     df_odds = get_odds_final(df)
@@ -35,6 +37,7 @@ def initialize_model():
 
 def train_model(model, X_train_processed, y_train):
     model.fit(X_train_processed, y_train)
+    upload_model(model)
     return model
 
 def check_conditions(margin, prediction):
