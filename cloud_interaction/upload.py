@@ -8,6 +8,7 @@ import os
 import pickle
 import time
 from params import *
+
 local_path = LOCAL_REGISTRY_PATH
 BUCKET_NAME = os.environ.get("BUCKET_NAME")
 
@@ -16,8 +17,9 @@ def upload_model(model):
     timestamp = time.strftime("%Y%m%d-%H%M%S")
 
     # save model locally
-    model_path = os.path.join(local_path, "models", f"{timestamp}.h5")
-    model.save(model_path)
+    model_path = os.path.join(local_path, f"{timestamp}.pkl")
+    with open(model_path,'wb') as f:
+        pickle.dump(model,f)
 
     print("✅ Model saved locally")
 

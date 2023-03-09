@@ -36,7 +36,7 @@ def initialize_model():
     return model
 
 def train_model(model, X_train_processed, y_train):
-    model.fit(X_train_processed, y_train)
+    model = model.fit(X_train_processed, y_train)
     upload_model(model)
     return model
 
