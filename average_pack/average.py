@@ -11,10 +11,10 @@ def get_averages():
 
     df_home = df.groupby(df['HomeTeam']).mean()
     df_home['THC'] = df_home['HY'] + df_home['HR']
-    df_home = df_home[['HomeTeam', 'HST', 'THC', 'HC']]
+    df_home = df_home[['HST', 'THC', 'HC']]
 
     df_away = df.groupby(df['AwayTeam']).mean()
     df_away['TAC'] = df_away['AY'] + df_away['AR']
-    df_away = df_away[['AwayTeam', 'AST', 'TAC', 'AC']]
+    df_away = df_away[['AST', 'TAC', 'AC']]
 
     return df_home, df_away
