@@ -133,3 +133,6 @@ raw_data/
 params.py
 
 models/
+notebooks/
+bg.png
+style.css
