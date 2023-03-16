@@ -4,6 +4,29 @@ import requests
 from app import *
 from model_build.model_building import dl_model
 from params import *
+import streamlit.components.v1 as components
+import base64
+
+def add_bg_from_local(image_file):
+    with open(image_file, "rb") as image_file:
+        encoded_string = base64.b64encode(image_file.read())
+    st.markdown(
+    f"""
+    <style>
+    .stApp {{
+        background-image: url(data:image/{"png"};base64,{encoded_string.decode()});
+        background-size: cover
+    }}
+    </style>
+    """,
+    unsafe_allow_html=True
+    )
+
+
+def local_css(file_name):
+    with open(file_name) as f:
+        st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+
 
 odds = get_odds()
 game_dict = {}
@@ -61,7 +84,7 @@ stadium_dict = {"Southampton": "Saint Mary's Stadium",\
                'Aston Villa': "Villa Park",\
                'Wolves': "Molineux Stadium"}
 
-
+add_bg_from_local('bg.png')
 
 with st.form(key='params_for_api'):
     option = st.selectbox(
