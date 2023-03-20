@@ -133,9 +133,8 @@ raw_data/
 params.py
 
 models/
-.toml
 notebooks/
 bg.png
+style.css
 FIFA23_official_data.csv
 secrets.toml
-style.css

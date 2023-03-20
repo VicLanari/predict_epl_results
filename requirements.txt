@@ -1,2 +1,12 @@
 pandas
 sklearn
+numpy
+os
+string
+requests
+pickle
+base64
+streamlit
+datetime
+bigquery
+time
